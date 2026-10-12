@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#070e1b"><title>4Us — GE9X | v11.9 Material-Accurate Finish</title><style>
+:root{color-scheme:dark;--ink:#e8f0fc;--sub:#8194b2;--line:rgba(153,185,226,.16);--accent:#78c7f8;--orange:#f3a56c}*{box-sizing:border-box}body{margin:0;background:#050b14;color:var(--ink);font:13px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang TC",sans-serif;overflow:hidden}button,input{font:inherit}button{cursor:pointer}#app{height:100dvh;min-height:560px;display:flex;flex-direction:column;background:radial-gradient(ellipse at 50% 20%,#132843 0%,#07101e 55%,#050910 100%)}header{height:66px;flex-shrink:0;padding:14px 18px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.eyebrow{font-size:9px;letter-spacing:3px;color:#8ca3c5}.brand{font-size:23px;letter-spacing:-.9px;font-weight:650;line-height:1.05}.brand small{font-size:11px;color:#9eafc8;letter-spacing:1.2px;font-weight:500}.live{font-size:10px;letter-spacing:1px;color:#7ce0b7;border:1px solid #2a6155;border-radius:20px;padding:6px 10px}.stage{position:relative;flex:1;min-height:190px;overflow:hidden;touch-action:none}canvas{display:block;width:100%;height:100%}.stage-top{position:absolute;top:13px;left:16px;right:16px;display:flex;justify-content:space-between;pointer-events:none}.chip{background:#081524bd;border:1px solid #324760a8;border-radius:6px;padding:5px 9px;font-size:10px;letter-spacing:1.3px;color:#c0d3ea}.stage-foot{position:absolute;bottom:13px;left:16px;right:16px;display:flex;justify-content:space-between;pointer-events:none;color:#8099b8;font-size:10px}.panel{flex-shrink:0;border-top:1px solid var(--line);background:linear-gradient(180deg,#0b1626,#080f1c);padding:14px 16px calc(14px + env(safe-area-inset-bottom));box-shadow:0 -20px 55px #02070c88}.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.mode{padding:10px 4px;border:1px solid #273b55;border-radius:10px;background:#101d2e;color:#96a9c4;font-size:10px;letter-spacing:1.3px;font-weight:650}.mode.active{background:#dcecfb;color:#101c2c;border-color:#dcecfb}.sectiontitle{font-size:10px;letter-spacing:2px;color:#93a9c5;margin:16px 0 8px;display:flex;justify-content:space-between}.sectiontitle b{color:#d6e7fa;font-weight:500;letter-spacing:0}.throttle{width:100%;height:25px;accent-color:#93d5ff;touch-action:pan-x}.scale{display:flex;justify-content:space-between;font-size:9px;letter-spacing:1px;color:#6d819f}.gauges{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:14px}.gauge{border:1px solid #25364c;border-radius:10px;background:#0d1a2a;padding:9px 10px}.gauge label{display:block;color:#91a5c0;font-size:10px;letter-spacing:1.4px}.gauge strong{display:block;font-weight:560;font-size:23px;letter-spacing:-.6px;font-variant-numeric:tabular-nums;line-height:1.4}.gauge small{color:#7c8faa;font-size:9px}.gauge.hot strong{color:#ffbc8a}.actions{display:flex;align-items:center;gap:7px;margin-top:12px}.action{border:1px solid #2b415c;border-radius:8px;padding:9px 12px;background:#102036;color:#d5e6fa;font-size:11px}.action.on{border-color:#cf986c;color:#ffc49a}.note{margin-left:auto;font-size:9px;color:#7e91aa;text-align:right;max-width:170px}.info{position:absolute;left:15px;bottom:38px;pointer-events:none;max-width:210px}.info .t{font-size:10px;letter-spacing:1.7px;color:#91bfe2}.info .d{font-size:10px;color:#849bb9;line-height:1.55;margin-top:3px}.quick{display:flex;gap:7px;align-items:center;margin-top:9px}.quickbtn{border:1px solid #284057;background:transparent;color:#9db7cf;padding:7px 10px;border-radius:8px;font-size:10px;letter-spacing:.7px;min-height:33px}.quick span{margin-left:auto;font-size:9px;letter-spacing:.5px;color:#70869f}.action{min-height:36px;touch-action:manipulation}.mode{min-height:43px;touch-action:manipulation}.gauge strong{font-variant-numeric:tabular-nums}.panel{max-height:53dvh;overflow-y:auto;overscroll-behavior:contain}.stage{min-height:180px} @media(min-width:700px){#app{max-width:800px;margin:auto;border-left:1px solid #20334a;border-right:1px solid #20334a}.panel{padding-left:28px;padding-right:28px}}@media(max-height:690px){header{height:54px;padding-top:9px}.panel{padding-top:10px}.sectiontitle{margin-top:10px}.gauges{margin-top:8px}.gauge{padding:5px 9px}.gauge strong{font-size:20px}.actions{margin-top:7px}.info{display:none}}
+#error{position:absolute;left:14px;right:14px;top:68px;z-index:5;background:#2c1420ee;color:#ffd9d8;padding:12px;border:1px solid #c87178;border-radius:10px;display:none;font-size:12px;white-space:pre-wrap}.stage canvas{touch-action:none} .note{max-width:110px} .gauge strong{font-size:21px} .chip{font-size:9px} @media(max-width:380px){.action{padding:8px 7px;font-size:10px}.panel{padding-left:10px;padding-right:10px}}
+
+.rotorbar{margin-top:12px;padding:10px;border:1px solid #2d4057;background:#0b1b2b;border-radius:11px}.rotortitle{font-size:9px;letter-spacing:1.7px;color:#a7c3dc}.rotorbuttons{display:grid;grid-template-columns:.65fr 1fr 1fr 1fr;gap:5px;margin-top:7px}.rotorbtn{min-height:37px;border:1px solid #30465e;background:#12253a;border-radius:7px;color:#a4bcd4;font-size:9px;letter-spacing:.15px;padding:5px 2px;touch-action:manipulation}.rotorbtn.selected{background:#dcecfb;border-color:#dcecfb;color:#102136;font-weight:700}.rotorhint{font-size:9px;color:#8ea9c3;margin-top:6px;min-height:15px}.panel{max-height:57dvh}.gauges .gauge:first-child{border-color:#41658a}.gauges .gauge:nth-child(2){border-color:#99734e}.gauges .gauge:first-child strong{color:#9ad0ff}.gauges .gauge:nth-child(2) strong{color:#f3c38b}@media(max-height:690px){.rotorbar{margin-top:6px;padding:7px}.rotorbtn{min-height:31px}.rotorhint{display:none}}
+.egtbar{margin-top:9px;display:flex;gap:12px;align-items:center;padding:10px 13px;border:1px solid #604632;border-radius:10px;color:#e0a87a;font-size:11px;letter-spacing:1px}.egtbar b{font-size:19px;color:#ffb58c}.egtbar span{margin-left:auto;color:#8da0b4;font-size:9px}.gauge strong{font-size:clamp(17px,5vw,28px)!important}.gauge small{font-size:8px!important}.rotorbtn{font-size:10px!important}
+.researchline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:10px 3px 3px}.researchline span{font-size:8px;color:#90a5bb;text-align:center;letter-spacing:.3px}.researchline b{font-weight:650;font-size:13px;color:#e2eaf1;display:block;letter-spacing:-.3px}.education{border:1px solid #26384a;padding:10px;border-radius:11px;margin-top:8px;background:linear-gradient(125deg,#0d1d2a,#0a1423);display:grid;grid-template-columns:1fr 1.1fr;gap:9px}.education b{display:block;color:#8ba8c1;font-size:8px;letter-spacing:.7px;font-weight:600;margin-bottom:5px}.education select{display:block;width:100%;background:#152e41;border:1px solid #36526b;border-radius:7px;color:#d3e8f7;font-size:10px;min-height:34px;padding:3px}.orientation span{color:#d3aa94;font-size:9px;line-height:1.35;display:block}.tech{padding:9px 11px;border:1px solid #34455d;border-radius:10px;background:#0a1825;margin-top:10px}.techhead{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#afc5d8;font-size:9px;letter-spacing:1px}.techhead button{background:none;color:#9fcee8;border:0;font-size:10px;text-decoration:underline}.techgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:7px}.techgrid button{border:1px solid #304359;background:#102233;color:#c0d0dd;border-radius:7px;min-height:35px;font-size:10px;touch-action:manipulation}.techgrid button.active{border-color:#8dc7e7;background:#183d54;color:#edf5fb}.techdetail{margin-top:7px;font-size:10px;line-height:1.5;color:#a1b7c9;min-height:30px}.techdetail strong{color:#e7f2f9}.revtag{font-size:9px;margin-top:7px;color:#7695a9}.gauge small{white-space:nowrap}.stage .info{max-width:275px}.panel{max-height:63dvh}.rotorbar{margin-top:8px}.researchline+.education{margin-top:5px} @media(max-height:700px){.panel{max-height:57dvh}.education{padding:6px}.researchline{padding:5px 0 0}}
+
+.nacellebar{margin:10px 0 5px;padding:10px 11px;background:linear-gradient(120deg,#102336,#0a1728);border:1px solid #36516b;border-radius:11px}
+.nacellebar .nhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:10px;letter-spacing:1.3px;color:#b6d1e7}
+.nacellebar .nhead small{font-size:8px;letter-spacing:.4px;color:#8ca6be}
+.nacellebuttons{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.nacellebuttons button{border:1px solid #35516a;background:#142b42;color:#bad1e5;border-radius:8px;padding:10px 3px;font-size:10px;letter-spacing:.8px;min-height:39px}
+.nacellebuttons button.active{background:#dcecfb;color:#142538;border-color:#dcecfb;font-weight:700}
+.nacellebar .ncaption{color:#8ca7c0;font-size:9px;margin-top:8px;line-height:1.6}
+
+/* V11.2 mobile-first model viewport */
+#app{min-height:0}
+.stage{flex:1 1 auto;min-height:clamp(310px,52dvh,650px)}
+.panel{max-height:40dvh;overflow-y:auto}
+.stage .info{max-width:185px;left:14px;bottom:41px;padding:5px 7px;border-radius:6px;background:rgba(5,13,24,.60)}
+.stage .info .t{font-size:9px;letter-spacing:.6px}
+.stage .info .d{font-size:9px;line-height:1.4}
+@media (min-width:700px){.stage{min-height:clamp(350px,54dvh,720px)}.panel{max-height:40dvh}}
+@media (max-height:690px){.stage{min-height:275px}.panel{max-height:43dvh}}
+
+.actions{flex-wrap:wrap}.actions .note{flex-basis:100%;max-width:none;text-align:left}.stage .info{opacity:.65;bottom:35px}.stage .info .t{font-size:8px}
+</style></head><body><div id="app"><header><div><div class="eyebrow">AEROSPACE / ENGINEERING STUDIO</div><div class="brand">GE9X <small>4Us · METALLIC DETAIL V12.6</small></div></div><div class="live" id="state">● INITIALIZING</div></header><div class="stage" id="stage"><canvas id="view"></canvas><svg id="staticEngine" viewBox="0 0 600 340" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="metal" x2="0.2" y2="1"><stop stop-color="#c8d9e5"/><stop offset=".35" stop-color="#526a7e"/><stop offset=".7" stop-color="#1c3148"/><stop offset="1" stop-color="#91aabd"/></linearGradient><linearGradient id="core" x2="0" y2="1"><stop stop-color="#adc0d0"/><stop offset=".5" stop-color="#20354b"/><stop offset="1" stop-color="#8597a8"/></linearGradient></defs><g transform="translate(300 170)"><path d="M-155 -84 L130 -50 L180 -26 L180 26 L130 50 L-155 84Z" fill="url(#core)" stroke="#adc3d3" stroke-width="3"/><g stroke="#9bb2c5" stroke-width="2"><path d="M-115 -68 V68"/><path d="M-98 -67 V67"/><path d="M-81 -65 V65"/><path d="M-64 -63 V63"/><path d="M-47 -62 V62"/><path d="M-30 -60 V60"/><path d="M-13 -59 V59"/><path d="M4 -57 V57"/><path d="M21 -56 V56"/><path d="M38 -54 V54"/><path d="M55 -53 V53"/><path d="M72 -51 V51"/><path d="M89 -50 V50"/><path d="M106 -48 V48"/><path d="M123 -47 V47"/></g><path d="M-176 -100 L-100 -88 L-100 88 L-176 100Z" fill="url(#metal)" stroke="#d9e8ef" stroke-width="3"/><ellipse cx="-176" cy="0" rx="35" ry="100" fill="#071421" stroke="#b4cbd9" stroke-width="8"/><g id="fallbackBlades" fill="url(#metal)" stroke="#e5f0f8" stroke-width=".6"><path transform="translate(-176 0) rotate(0.0)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(22.5)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(45.0)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(67.5)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(90.0)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(112.5)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(135.0)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(157.5)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(180.0)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(202.5)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(225.0)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(247.5)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(270.0)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(292.5)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(315.0)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/><path transform="translate(-176 0) rotate(337.5)" d="M0 -14 Q-30 -36 -6 -91 Q23 -85 12 -34Z"/></g><ellipse cx="-176" cy="0" rx="11" ry="30" fill="#d7e3eb" stroke="#607e94" stroke-width="3"/><path d="M120 -49 L184 -30 L194 -14 L194 14 L184 30 L120 49Z" fill="url(#metal)" stroke="#c3d5e1" stroke-width="2"/></g><text x="300" y="322" fill="#8099b8" text-anchor="middle" font-family="sans-serif" font-size="12">GE9X • STATIC PREVIEW — ENABLE JAVASCRIPT FOR 3D</text></svg><div id="error"></div><div class="stage-top"><span class="chip" id="modeLabel">01 / EXTERIOR</span><span class="chip" id="quality">GE9X · METAL FINISH v12.6</span></div><div class="info"><div class="t" id="hintTitle">GE9X · BOEING 777X · STUDY MODEL</div><div class="d" id="hintText">拖曳旋轉視角 · 雙指縮放<br>16 片 CFRP 風扇 · 3 / 11 / 2 / 6 級 · 雙轉子</div></div><div class="stage-foot"><span id="fps">INTERACTIVE 3D · CONCEPT MODEL</span><span id="angleText">VIEW 32°</span></div></div><div class="panel"><div class="modes"><button class="mode active" data-mode="exterior">EXTERIOR</button><button class="mode" data-mode="xray">X-RAY</button><button class="mode" data-mode="explode">EXPLODED</button></div><div class="rotorbar"><span class="rotortitle">ROTOR INSPECTION / 轉子觀察</span><div class="rotorbuttons"><button class="rotorbtn selected" data-rotor="all">ALL</button><button class="rotorbtn" data-rotor="fan">FAN</button><button class="rotorbtn" data-rotor="lp">LP ROTOR</button><button class="rotorbtn" data-rotor="hp">HP ROTOR</button></div><div class="rotorhint" id="rotorHint">FAN = LPC = LPT (N1) · HPC = HPT (N2)</div></div><div style="margin:8px 2px 0;color:#90a9c6;font-size:10px;line-height:1.5">ROTATION · 從進氣口往後看：N1 / N2 使用展示方向；<b>GE9X 實際 CW／CCW 尚無可確認原廠公開依據</b>。<br>FAN / LPC / LPT 共享 N1；HPC / HPT 共享 N2。動畫為比例慢動作，非實際轉速影像。</div><div class="researchline"><span><b>134 in</b> FAN Ø</span><span><b>16</b> CFRP BLADES</span><span><b>3 / 11</b> LPC / HPC</span><span><b>2 / 6</b> HPT / LPT</span></div>
+<div class="nacellebar"><div class="nhead"><span>NACELLE / 發動機短艙</span><small id="nacelleState">CLOSED · COMPLETE SHELL</small></div><div class="nacellebuttons"><button type="button" class="active" data-nacelle="closed">CLOSED</button><button type="button" data-nacelle="open">OPEN</button><button type="button" data-nacelle="reverse">REVERSE</button><button type="button" data-nacelle="hidden">HIDDEN</button></div><div class="ncaption">METAL FINISH v12.6 · 白色短艙／金屬進氣唇口／CFRP 石墨色風扇／鈦合金冷端／鎳基耐熱合金與陶瓷熱端／深色排氣通道。材質色澤為工程近似，非 GE 原廠塗裝規範。<br>777-9 工程近似：外側旁通噴嘴、核心排氣噴嘴與環形出口分離建模；尾緣平滑，非 787 式鋸齒。尺寸及動作非原廠 CAD。</div></div><div class="education"><div><b>ANIMATION SPEED / 展示慢動作</b><select id="visSpeed" aria-label="展示轉速倍率"><option value="0.002">ULTRA SLOW · 0.2%</option><option value="0.004" selected>INSPECTION · 0.4%</option><option value="0.05">TRAINING · 5%</option><option value="1">REAL TIME · 100%</option></select></div><div class="orientation"><b>INLET VIEW · ROTATION</b><span>＋ / ＋ 方向僅供展示，不代表 GE9X 已確認旋向</span></div></div>
+<div class="sectiontitle"><span>THRUST LEVER / 油門</span><b id="throttleValue">35%</b></div><input class="throttle" id="throttle" type="range" min="0" max="100" value="35" aria-label="油門百分比"><div class="scale"><span>IDLE</span><span>CLIMB</span><span>TAKEOFF</span></div><div class="gauges" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div class="gauge"><label>FAN · N1</label><strong id="fanrpm">0</strong><small>RPM · N1 SPOOL</small></div><div class="gauge"><label>LP · N1</label><strong id="n1">0</strong><small>RPM · N1 SPOOL</small></div><div class="gauge"><label>HP · N2</label><strong id="n2">0</strong><small>RPM · N2 SPOOL</small></div></div><div class="egtbar">THERMAL · INDEX <b id="egt">0°</b><span>% · NON-OPERATIONAL PROXY</span></div><div class="actions"><button class="action" id="pause">Ⅱ PAUSE</button><button class="action" id="thermal">THERMAL OFF</button><button class="action" id="sound">◌ SOUND OFF</button><label class="action" style="white-space:nowrap">IMPORT AUDIO<input type="file" id="soundFile" accept="audio/*,.mp3,.m4a,.wav,.aac" style="display:none"></label><button class="action" id="reset">RESET VIEW</button><span class="note">N1/N2：以 GE 公開轉速為上界的教學曲線<br>非 FADEC 資料 · 雙轉子、非三轉子</span></div><div class="quick"><button id="front" class="quickbtn">FRONT</button><button id="side" class="quickbtn">SIDE</button><button id="iso" class="quickbtn">3/4 VIEW</button><span id="soundState">RESEARCH AUDIO · PHYSICS + SYNTHESIS · TAP SOUND ON</span></div></div><div class="tech" id="tech"><div class="techhead"><span>ENGINE ANATOMY / 結構研究</span><button id="sourceLink" type="button">公開規格 ↗</button></div><div class="techgrid"><button data-part="fan" class="active">FAN · 16</button><button data-part="lpc">LPC · 3</button><button data-part="hpc">HPC · 11</button><button data-part="combustor">TAPS III</button><button data-part="hpt">HPT · 2</button><button data-part="lpt">LPT · 6</button></div><div id="techDetail" class="techdetail"><strong>FAN</strong> · 16 片碳纖維複合材料葉片；前緣以金屬護緣視覺化。扭轉／後掠角為公開影像近似，非 OEM 葉型 CAD。</div><div class="revtag">MATERIAL-INSPIRED FINISH · NOT OEM PAINT OR COATING SPEC · FAN Ø 3.4036 m</div></div></div></div><script>
+(function(){'use strict';
+const $=id=>document.getElementById(id), canvas=$('view'),stage=$('stage'),state=$('state'),fallback=$('staticEngine'),err=$('error');
+let sampleAudio=null,sampleUrl=null;let audioCtx,audioMaster,audioFan,audioCore,audioNoise,audioFilter,audioWhine,audioWhine2,audioHissFilter,audioHissGain,audioFanGain,audioCoreGain,soundOn=false,voice=null;let focusRotor='all';const FAN_KINDS=new Set(['fan','spinner']),LP_KINDS=new Set(['lpc','lpt','lpshaft']),HP_KINDS=new Set(['hpc','hpt','hpshaft']);let rotorVisualSpeed=0.004; const N1_PUBLIC_REFERENCE_RPM=2510,N2_PUBLIC_REFERENCE_RPM=11119; const DIRECTION_N1=+1,DIRECTION_N2=+1; // Unverified OEM direction: display convention only.
+let nacelleMode='closed',nacelleOpen=0,nacelleReverse=0;let gl,program,attrib={},uniform={},mode='exterior',thermal=false,paused=false,throttle=35,n1=0,n2=0,angN1=0,angN2=0,yaw=1.00,pitch=.16,zoom=1.13,last=0,frames=0,thermalIndex=0,viewPart="fan";
+function fail(e){state.textContent='● 3D ERROR';state.style.color='#ff9e9e';err.style.display='block';err.textContent='3D 引擎未啟動：'+String(e&&e.message||e)+'\n請將此錯誤訊息回報以修正 WebGL。';fallback.style.display='block';console.error(e)}
+window.addEventListener('error',e=>fail(e.error||e.message));
+const VS=`attribute vec3 aPos;attribute vec3 aNormal;attribute vec3 aColor;uniform mat4 uMVP;uniform mat4 uModel;varying vec3 vNormal;varying vec3 vColor;varying vec3 vWorld;void main(){vec4 w=uModel*vec4(aPos,1.);vWorld=w.xyz;vNormal=mat3(uModel)*aNormal;vColor=aColor;gl_Position=uMVP*vec4(aPos,1.);}`;
+const FS=`precision highp float;varying vec3 vNormal;varying vec3 vColor;varying vec3 vWorld;uniform float uAlpha;uniform float uGlow;uniform float uMetal;uniform float uRough;
+void main(){
+ vec3 n=normalize(vNormal);vec3 key=normalize(vec3(-.48,.87,1.13));vec3 fill=normalize(vec3(.75,-.34,-.67));vec3 halfV=normalize(key+normalize(vec3(.12,.25,1.1)));
+ float diff=.25+.62*abs(dot(n,key))+.18*abs(dot(n,fill));
+ float lum=dot(vColor,vec3(.299,.587,.114));
+ float neutral=1.-clamp(abs(vColor.r-vColor.b)*2.8,0.,1.);
+ float metal=clamp(uMetal,0.,1.);
+ float spec=pow(max(0.,abs(dot(n,halfV))),mix(110.,16.,clamp(uRough,0.,1.)));
+ float sheen=pow(max(0.,1.-abs(dot(n,normalize(vec3(.16,.25,1.))))),3.);
+ float brushed=.925+.075*sin(vWorld.x*145.+atan(vWorld.z,vWorld.y)*54.);
+ vec3 base=vColor*diff*mix(1.0,brushed,metal);
+ vec3 highlight=mix(vec3(.45,.55,.64),vec3(.92,.96,1.),metal);
+ vec3 col=base+highlight*spec*(.11+.75*metal)*(1.1-uRough*.4)+vec3(.23,.36,.50)*sheen*(.13+.18*metal);
+ col+=vec3(1.,.29,.055)*uGlow;
+ col=col/(col+vec3(.15));col=pow(col,vec3(.93));
+ gl_FragColor=vec4(col,uAlpha);
+}`;
+const pi=Math.PI,tau=2*pi,clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function shader(type,src){let sh=gl.createShader(type);gl.shaderSource(sh,src);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(sh));return sh}
+function init(){gl=canvas.getContext('webgl',{alpha:false,antialias:true,preserveDrawingBuffer:false})||canvas.getContext('experimental-webgl');if(!gl)throw Error('WebGL 無法使用');program=gl.createProgram();gl.attachShader(program,shader(gl.VERTEX_SHADER,VS));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,FS));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program);['aPos','aNormal','aColor'].forEach(n=>attrib[n]=gl.getAttribLocation(program,n));['uMVP','uModel','uAlpha','uGlow','uMetal','uRough'].forEach(n=>uniform[n]=gl.getUniformLocation(program,n));gl.enable(gl.DEPTH_TEST);gl.enable(gl.CULL_FACE);gl.cullFace(gl.BACK);gl.clearColor(.025,.052,.095,1);}
+const meshes=[];
+function newMesh(group,kind,alpha=1,glow=0){let m={group,kind,alpha,glow,p:[],n:[],c:[],vbo:null,count:0};meshes.push(m);return m}
+const MATERIAL={fan:[.33,.36],spinner:[.42,.29],lpc:[.92,.26],hpc:[.96,.28],stator:[.94,.28],hpt:[.95,.32],lpt:[.94,.34],combustor:[.87,.44],shell:[.88,.32],detail:[.78,.32],nacelle:[.24,.30],nacelleTrim:[.72,.27],nacelleFixed:[.35,.35],nacelleLiner:[.14,.64],nacelleHardware:[.85,.28],nacelleCascade:[.75,.39],nacelleSleeve:[.30,.30],nacelleSleeveInner:[.20,.58],nacelleBlocker:[.65,.38],nacellePylon:[.35,.45],nozzle:[.92,.42],lpshaft:[.94,.4],hpshaft:[.94,.4]};
+function fanBlade(m,x,r0,r1){const bladesCount=16,radialSteps=17,chordSteps=4;for(let i=0;i<bladesCount;i++){const phase=tau*i/bladesCount;let p=(f,u,face)=>{const r=r0+(r1-r0)*f;const mid=phase+.67*f-.08*f*f;const chord=(.30+.20*Math.sin(Math.PI*Math.pow(f,.72))-.11*f);const angle=mid+u*chord*(.75+.18*f)+(.10*f*f);const camber=.065*(1-u*u)*Math.sin(pi*f);const thickness=(.025-.012*f)*(face?1:-1);const xx=x+.31*f*f+.04*u*f+camber+thickness;return [xx,r*Math.cos(angle),r*Math.sin(angle)]};for(let j=0;j<radialSteps;j++){let f0=j/radialSteps,f1=(j+1)/radialSteps;for(let k=0;k<chordSteps;k++){let u0=-1+2*k/chordSteps,u1=-1+2*(k+1)/chordSteps;for(let face of [0,1]){let a=p(f0,u0,face),b=p(f1,u0,face),c=p(f1,u1,face),d=p(f0,u1,face);// Reference-inspired polished silver pressure face, shadowed graphite back.
+// A gradient across each blade and dark interblade spaces is more faithful
+// to the supplied frontal photograph than uniform graphite coloring.
+let radial=.78+.22*f1;
+let light=(.66+.25*Math.sin(Math.PI*Math.pow(f1,.7)))*radial;
+let silverFace=[.095+.065*light,.115+.072*light,.135+.078*light];
+let shadedFace=[.038+.045*f1,.044+.048*f1,.054+.055*f1];
+let leading=[.30,.33,.36], trailing=[.035,.041,.050];
+let color=face===0?(k===0?leading:k===3?trailing:silverFace):(k===0?[.16,.18,.20]:shadedFace);
+quad(m,a,b,c,d,color)}}}}}
+
+function tri(m,a,b,c,col){let u=[b[0]-a[0],b[1]-a[1],b[2]-a[2]],v=[c[0]-a[0],c[1]-a[1],c[2]-a[2]],n=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];let len=Math.hypot(...n)||1;n=n.map(q=>q/len);for(let p of [a,b,c]){m.p.push(...p);m.n.push(...n);m.c.push(...col)}}
+function quad(m,a,b,c,d,col){tri(m,a,b,c,col);tri(m,a,c,d,col)}
+function ring(m,x0,x1,r0,r1,color,seg=32,cut=0){let start=cut?-.10:0,end=cut?tau*.78:tau;for(let i=0;i<seg;i++){let a=start+(end-start)*i/seg,b=start+(end-start)*(i+1)/seg;let A=[x0,r0*Math.cos(a),r0*Math.sin(a)],B=[x1,r1*Math.cos(a),r1*Math.sin(a)],C=[x1,r1*Math.cos(b),r1*Math.sin(b)],D=[x0,r0*Math.cos(b),r0*Math.sin(b)];quad(m,A,B,C,D,color);quad(m,D,C,B,A,color)}}
+function annulus(m,x,ro,ri,col,seg=36){for(let i=0;i<seg;i++){let a=tau*i/seg,b=tau*(i+1)/seg;let A=[x,ro*Math.cos(a),ro*Math.sin(a)],B=[x,ri*Math.cos(a),ri*Math.sin(a)],C=[x,ri*Math.cos(b),ri*Math.sin(b)],D=[x,ro*Math.cos(b),ro*Math.sin(b)];quad(m,A,B,C,D,col);quad(m,D,C,B,A,col)}}
+function torus(m,x,r,t,color,seg=40,minor=7){for(let i=0;i<seg;i++)for(let j=0;j<minor;j++){let a=tau*i/seg,b=tau*(i+1)/seg,u=tau*j/minor,v=tau*(j+1)/minor;let pt=(aa,uu)=>[x+t*Math.sin(uu),(r+t*Math.cos(uu))*Math.cos(aa),(r+t*Math.cos(uu))*Math.sin(aa)];quad(m,pt(a,u),pt(b,u),pt(b,v),pt(a,v),color)}}
+function blades(m,x,r0,r1,count,depth,color,sweep=.48){for(let i=0;i<count;i++){let phase=tau*i/count;let surface=(r,t,side)=>{let f=(r-r0)/(r1-r0);let a=phase+f*sweep+t*(.13+.09*f);return [x+depth*f*f+.055*Math.sin(t*pi)+side*.017, r*Math.cos(a),r*Math.sin(a)]};let rows=9;for(let j=0;j<rows;j++){let ra=r0+(r1-r0)*j/rows,rb=r0+(r1-r0)*(j+1)/rows;let twist=.055;let a=surface(ra,-1,0),b=surface(rb,-1,0),c=surface(rb,1,0),d=surface(ra,1,0);quad(m,a,b,c,d,color);quad(m,d,c,b,a,color)} }}
+function pipe(m,x0,x1,r,theta,thick,col){let a=[x0,r*Math.cos(theta),r*Math.sin(theta)],b=[x1,r*Math.cos(theta),r*Math.sin(theta)],a2=[x0,(r+thick)*Math.cos(theta+.02),(r+thick)*Math.sin(theta+.02)],b2=[x1,(r+thick)*Math.cos(theta+.02),(r+thick)*Math.sin(theta+.02)];quad(m,a,b,b2,a2,col);quad(m,a2,b2,b,a,col)}
+
+// V11: 777-9 nacelle architectural study: inlet, fan cowls, fixed cascades,
+// translating sleeves, bypass blocker doors, inner flow liner and pylon.
+// Dimensions, panel count and hinge travel are visually calibrated approximations,
+// not Boeing/GE approved maintenance geometry.
+const nacelleAxialScale=(5.59/3.4036)/(7.61/3.02);
+function nacelleSurface(m,stations,a0,a1,col,seg=48){
+ const p=(x,r,a)=>[x,r*Math.cos(a),r*Math.sin(a)];
+ for(let j=0;j<stations.length-1;j++)for(let i=0;i<seg;i++){
+  let a=a0+(a1-a0)*i/seg,b=a0+(a1-a0)*(i+1)/seg;
+  let [x,r]=stations[j],[xx,rr]=stations[j+1];
+  quad(m,p(x,r,a),p(xx,rr,a),p(xx,rr,b),p(x,r,b),col);
+ }
+}
+function nacelleArc(m,x0,x1,r,a0,a1,col,seg=32){
+ nacelleSurface(m,[[x0,r],[x1,r]],a0,a1,col,seg);
+}
+function nacellePanel(m,side){
+ // Fan cowl covers fan case; opening hinges along upper longitudinal seam.
+ let a0=side===1?.035:Math.PI+.035,a1=side===1?Math.PI-.035:2*Math.PI-.035;
+ nacelleSurface(m,[[-2.07,1.515],[-1.93,1.535],[-1.55,1.525],[-1.12,1.465],[-.83,1.40]],a0,a1,[.91,.925,.935],80);
+ nacelleSurface(m,[[-2.065,1.485],[-1.93,1.495],[-1.55,1.485],[-1.12,1.425],[-.83,1.36]],a0,a1,[.22,.25,.28],64);
+ for(let a of [a0,a1])for(let j=0;j<4;j++){
+  let st=[[-2.07,1.515],[-1.93,1.535],[-1.55,1.525],[-1.12,1.465],[-.83,1.40]];
+  let [x,r]=st[j],[xx,rr]=st[j+1];
+  quad(m,[x,r*Math.cos(a),r*Math.sin(a)],[xx,rr*Math.cos(a),rr*Math.sin(a)],[xx,(rr-.035)*Math.cos(a),(rr-.035)*Math.sin(a)],[x,(r-.035)*Math.cos(a),(r-.035)*Math.sin(a)],[.20,.29,.38]);
+ }
+}
+function buildNacelle(){
+ let m=newMesh(0,'nacelleFixed');
+ // Intake lip is stationary, a curved toroidal leading edge rather than a flat ring.
+ torus(m,-2.66,1.47,.067,[.78,.81,.83],80,12);
+ ring(m,-2.66,-2.51,1.49,1.53,[.77,.80,.82],80);
+ ring(m,-2.51,-2.07,1.53,1.515,[.83,.86,.88],80);
+ ring(m,-2.63,-2.10,1.39,1.425,[.10,.13,.16],80);
+ torus(m,-2.11,1.51,.014,[.26,.35,.44],72,7);
+ // Acoustic liner: fine annular perforation stripes, subdued to avoid moire.
+ m=newMesh(0,'nacelleLiner');
+ for(let i=0;i<13;i++){
+  let x=-2.47+i*.025;
+  nacelleArc(m,x,x+.004,1.397+i*.0015,0,tau,[.17,.20,.23],56);
+ }
+ // Two separately opening fan cowl doors and upper hinge rails.
+ for(let side of [1,-1]){
+  let door=newMesh(0,'nacelle');door.nacelleSide=side;nacellePanel(door,side);
+  let trim=newMesh(0,'nacelleTrim');trim.nacelleSide=side;
+  let a0=side===1?.035:Math.PI+.035,a1=side===1?Math.PI-.035:2*Math.PI-.035;
+  for(let x of [-2.055,-1.55,-.84])nacelleArc(trim,x,x+.014,x< -1.8?1.544:x< -1.3?1.535:1.411,a0,a1,[.53,.56,.59],64);
+ }
+ m=newMesh(0,'nacelleHardware');
+ for(let x of [-1.88,-1.35,-.96]){
+  pipe(m,x,x+.16,1.535,.025,.024,[.25,.32,.40]);
+  pipe(m,x,x+.16,1.535,Math.PI*2-.025,.024,[.25,.32,.40]);
+ }
+ // Stationary thrust reverser forward frame and cascade arrays (two C-duct halves).
+ m=newMesh(0,'nacelleFixed');
+ ring(m,-.83,-.67,1.40,1.37,[.75,.81,.86],64);
+ torus(m,-.77,1.39,.023,[.24,.33,.42],64,7);
+ // Cascade array is fixed. Sleeves move aft to uncover this structure.
+ for(let side of [1,-1]){
+  let a0=side===1?.09:Math.PI+.09,a1=side===1?Math.PI-.09:2*Math.PI-.09;
+  let casc=newMesh(0,'nacelleCascade');
+  for(let i=0;i<16;i++){
+   let aa=a0+(a1-a0)*i/16,bb=a0+(a1-a0)*(i+1)/16;
+   for(let j=0;j<8;j++){
+    let x=-.65+j*.075, tilt=.035;
+    let p=(xx,r,a)=>[xx,r*Math.cos(a),r*Math.sin(a)];
+    quad(casc,p(x,1.29,aa),p(x+.045,1.37,aa+tilt),p(x+.045,1.37,bb+tilt),p(x,1.29,bb),j%2?[.30,.35,.38]:[.53,.58,.60]);
+   }
+  }
+ }
+ // Bypass duct internal annulus, always fixed, shows flow path when open.
+ m=newMesh(0,'nacelleLiner');
+ ring(m,-.68,3.46,1.20,.74,[.12,.16,.19],72);
+ // Translating sleeves: both halves translate axially; not hinged open in reverse.
+ for(let side of [1,-1]){
+  let a0=side===1?.045:Math.PI+.045,a1=side===1?Math.PI-.045:2*Math.PI-.045;
+  let sleeve=newMesh(0,'nacelleSleeve');sleeve.nacelleSleeve=true;
+  nacelleSurface(sleeve,[[-.68,1.372],[-.26,1.345],[.33,1.255],[1.04,1.12],[1.68,1.01],[2.18,.95],[2.68,.90],[3.03,.85],[3.48,.80]],a0,a1,[.90,.915,.925],80);
+  let inner=newMesh(0,'nacelleSleeveInner');inner.nacelleSleeve=true;
+  nacelleSurface(inner,[[-.67,1.305],[-.26,1.28],[.33,1.19],[1.04,1.065],[1.68,.945],[2.18,.885],[2.68,.835],[3.03,.785],[3.48,.74]],a0,a1,[.25,.33,.40],52);
+  let seams=newMesh(0,'nacelleTrim');seams.nacelleSleeve=true;
+  for(let x of [-.65,.32,1.04,2.15,3.46]){
+   let r=x<0?1.38:x<.5?1.26:x<1.5?1.13:x<2.6?.96:.80;
+   nacelleArc(seams,x,x+.011,r,a0,a1,[.50,.54,.58],64);
+  }
+ }
+ // Fine painted cowl panels and flush inspection latches (rendered in nacelle-local space).
+ for(let side of [1,-1]){
+  const a0=side===1?.05:Math.PI+.05,a1=side===1?Math.PI-.05:2*Math.PI-.05;
+  let panel=newMesh(0,'nacelleTrim');panel.nacelleSide=side;
+  for(let x of [-1.91,-1.48,-1.10]){
+   let r=x<-1.7?1.541:x<-1.3?1.535:1.465;
+   nacelleArc(panel,x,x+.004,r,a0,a1,[.65,.68,.71],72);
+  }
+  // Short longitudinal inspection seams, flush with the skin.
+  for(let a of [a0+.16,a1-.16]){
+   nacelleSurface(panel,[[-1.84,1.541],[-1.56,1.531],[-1.34,1.506]],a,a+.004,[.63,.66,.69],8);
+  }
+  let sl=newMesh(0,'nacelleTrim');sl.nacelleSleeve=true;
+  for(let x of [-.32,.58,1.55,2.48,3.27]){
+   let r=x<0?1.353:x<1?1.235:x<2?1.04:x<3?.92:.823;
+   nacelleArc(sl,x,x+.004,r,a0,a1,[.68,.70,.72],72);
+  }
+ }
+ // Dark fastener heads kept extremely small to avoid visual noise.
+ m=newMesh(0,'nacelleHardware');
+ for(let x of [-2.04,-1.50,-.86,.25,1.38,2.64]){
+  let r=x< -1.7?1.54:x< -1.2?1.53:x<0?1.40:x<1?1.28:x<2?1.065:.90;
+  for(let i=0;i<18;i++){
+   let a=tau*(i+.5)/18,rr=r+.003;
+   tri(m,[x,rr*Math.cos(a),rr*Math.sin(a)],
+      [x+.010,rr*Math.cos(a+.003),rr*Math.sin(a+.003)],
+      [x-.010,rr*Math.cos(a+.003),rr*Math.sin(a+.003)],[.39,.42,.45]);
+  }
+ }
+ // Blocker doors in each bypass half: hinged into fan duct on reverse.
+ // Each sector uses its own radial-plane hinge transform.
+ for(let i=0;i<20;i++){
+  let theta=tau*(i+.5)/20;
+  let blocker=newMesh(0,'nacelleBlocker');blocker.blockerTheta=theta;
+  let width=2*pi/20*.80;
+  let x0=-.45,x1=.13,r0=1.185;
+  // Geometry initially lies against inner surface of outer duct.
+  for(let s of [-1,1]){
+   let rad=r0+s*.012;
+   let y0=rad*Math.cos(-width/2),z0=rad*Math.sin(-width/2);
+   let y1=rad*Math.cos(width/2),z1=rad*Math.sin(width/2);
+   quad(blocker,[x0,y0,z0],[x1,y0,z0],[x1,y1,z1],[x0,y1,z1],[.52,.61,.67]);
+  }
+ }
+ // v11.5: Two physically distinct aft flow paths (visual engineering approximation).
+ // The fan bypass nozzle ends at the sleeve trailing edge; its interior is annular.
+ // The smaller core exhaust continues aft, hiding the formerly exposed turbine casing.
+ m=newMesh(0,'nacelleAftLip');
+ torus(m,3.48,.772,.029,[.77,.83,.88],88,10);
+ annulus(m,3.48,.802,.718,[.18,.26,.33],88);
+ // Inner bypass wall / core plug fairing, intentionally separated from outer sleeve.
+ m=newMesh(0,'nacelleCoreCowl');
+ nacelleSurface(m,[[2.38,.71],[2.75,.71],[3.16,.69],[3.48,.655],[3.79,.60],[4.10,.525],[4.36,.445],[4.53,.392]],0,tau,[.49,.52,.53],88);
+ // Shadowed inner throat gives the nozzle a real aperture rather than a solid cone.
+ m=newMesh(0,'nacelleExhaustInner');
+ nacelleSurface(m,[[4.53,.392],[4.46,.352],[4.30,.317],[4.12,.297]],0,tau,[.075,.083,.091],88);
+ m=newMesh(0,'nacelleAftLip');
+ torus(m,4.53,.388,.024,[.71,.76,.80],88,10);
+ annulus(m,4.53,.388,.352,[.20,.27,.33],88);
+ // Recessed centerbody (not a blocking cap): preserves the annular exhaust opening.
+ m=newMesh(0,'nacelleCenterbody');
+ nacelleSurface(m,[[4.10,.205],[4.30,.19],[4.51,.155],[4.67,.09],[4.73,.025]],0,tau,[.31,.32,.32],64);
+ // A narrow, dark bypass outlet ring reads as a separate channel from the core jet.
+ m=newMesh(0,'nacelleExhaustInner');
+ nacelleSurface(m,[[3.48,.715],[3.36,.695],[3.18,.685]],0,tau,[.09,.12,.14],88);
+ // Pylon above the nacelle (schematic aerodynamic fairing).
+ m=newMesh(0,'nacellePylon');
+ const top=[[-1.62,1.47,0],[-1.20,2.07,0],[1.0,1.83,0],[2.42,.95,0]];
+ for(let i=0;i<top.length-1;i++){
+  let [x,y]=top[i],[xx,yy]=top[i+1];
+  quad(m,[x,y,-.12],[xx,yy,-.095],[xx,yy,.095],[x,y,.12],[.47,.55,.62]);
+  quad(m,[x,y,.12],[xx,yy,.095],[xx,yy,-.095],[x,y,-.12],[.47,.55,.62]);
+ }
+}
+
+function build(){
+// V12.0: material-led color palette; indicative visual rendering, not OEM coating data.
+let steel=[.48,.53,.57],silver=[.76,.79,.81],dark=[.15,.18,.21],blue=[.49,.55,.59],gold=[.49,.43,.36],warm=[.39,.32,.28],ceramic=[.72,.74,.72],titanium=[.56,.60,.63],carbon=[.072,.083,.095],copper=[.55,.43,.34],shadow=[.052,.064,.079];
+const FINISH={fanCarbon:[.11,.13,.15],fanEdge:[.67,.71,.74],compressorTitanium:[.57,.62,.66],compressorSteel:[.63,.67,.69],hotNickel:[.57,.57,.55],hotOxide:[.49,.47,.45],tbc:[.73,.73,.70],nozzleDark:[.24,.27,.29],whitePaint:[.86,.89,.91],inletMetal:[.76,.80,.82],ductLiner:[.11,.15,.18]};
+let m=newMesh(0,'shell');ring(m,-2.58,-1.13,1.51,1.43,[.64,.67,.69],64);ring(m,-1.14,-.80,1.44,1.30,[.65,.68,.70],60);annulus(m,-2.58,1.51,1.39,silver,60);torus(m,-2.55,1.49,.042,silver,60);torus(m,-1.13,1.42,.025,dark,60);
+m=newMesh(0,'shell');ring(m,-.80,.75,1.31,.92,[.57,.60,.63],60);ring(m,.75,2.88,.92,.57,[.55,.56,.56],60);torus(m,2.88,.57,.035,silver);for(let i=0;i<7;i++)torus(m,-.8+i*.48,1.26-i*.085,.014,dark);
+m=newMesh(0,'shell');ring(m,-2.57,-1.20,1.37,1.29,carbon,64);annulus(m,-2.56,1.39,1.36,[.15,.24,.32],60);
+m=newMesh(0,'detail');for(let i=0;i<20;i++){let a=i*tau/20;pipe(m,-.72,1.80,1.04,a,.035,steel)}for(let i=0;i<7;i++)torus(m,-.55+i*.43,1.06-i*.052,.012,silver);
+// Fan: 16 swept blades, LP rotor
+m=newMesh(1,'fan');fanBlade(m,-2.40,.26,1.375);m=newMesh(1,'spinner');ring(m,-2.47,-2.10,.26,.36,[.045,.051,.060]);torus(m,-2.40,.35,.035,[.20,.23,.26]);
+m=newMesh(1,'spinner');ring(m,-2.88,-2.47,.045,.25,[.045,.049,.055],48);ring(m,-2.47,-2.20,.25,.36,[.055,.060,.070],40);annulus(m,-2.88,.05,.006,[.17,.19,.21],32);
+// LPC: 3 compressor stages
+for(let j=0;j<3;j++){m=newMesh(2,'lpc');let x=-1.12+j*.31;blades(m,x,.21,.89-j*.08,23,.17,FINISH.compressorTitanium,.20);ring(m,x-.04,x+.16,.24,.26,dark);torus(m,x,.88-j*.08,.018,silver);m=newMesh(2,'stator');blades(m,x+.18,.35,.90-j*.08,26,.07,[.52,.57,.60],-.18)}
+// HPC: 11 confirmed stages. Exact per-row blade counts are visual proxies, not GE proprietary blade geometry.
+for(let j=0;j<11;j++){m=newMesh(3,'hpc');let x=-.13+j*.142,r=.74-j*.017;blades(m,x,.19,r,31,.082,j%2?FINISH.compressorSteel:[.54,.58,.61],.14);ring(m,x-.017,x+.085,.20,.21,dark);m=newMesh(3,'stator');blades(m,x+.087,.26,r+.024,34,.030,[.46,.50,.53],-.1)}
+// annular combustor chamber and glow interior
+m=newMesh(4,'combustor');ring(m,1.53,2.24,.75,.72,FINISH.hotNickel,42,1);ring(m,1.56,2.20,.57,.53,FINISH.hotOxide,42,1);for(let i=0;i<14;i++){let a=tau*i/14;pipe(m,1.52,2.17,.68,a,.04,[.55,.51,.46])}torus(m,1.54,.73,.028,silver);torus(m,2.22,.70,.025,silver);
+// HPT 2 stages, LPT 6 stages, separately driven
+for(let j=0;j<2;j++){let x=2.29+j*.21;m=newMesh(5,'hpt');blades(m,x,.20,.67-j*.015,30,.12,j===0?FINISH.tbc:FINISH.hotNickel,.21);torus(m,x,.68,.023,FINISH.hotOxide);m=newMesh(5,'stator');blades(m,x+.12,.31,.67,31,.04,[.66,.68,.69],-.10)}
+for(let j=0;j<6;j++){let x=2.75+j*.24;m=newMesh(5,'lpt');blades(m,x,.18,.67-j*.047,34,.12,j<2?[.64,.63,.61]:[.67,.69,.70],.20);torus(m,x,.68-j*.045,.018,[.36,.36,.35]);m=newMesh(5,'stator');blades(m,x+.13,.28,.67-j*.047,33,.05,[.54,.57,.59],-.13)}
+m=newMesh(5,'nozzle');ring(m,4.20,4.72,.46,.30,FINISH.nozzleDark,40);torus(m,4.72,.30,.03,silver);
+// central LP and HP concentric shafts
+m=newMesh(5,'lpshaft');ring(m,-1.90,4.33,.13,.13,dark,24);m=newMesh(3,'hpshaft');ring(m,-.20,2.80,.19,.19,[.50,.51,.51],24);
+// Exterior engineering detailing: carbon inlet lip, metallic seams, casing fasteners,
+// fan containment bands, accessory housings, pylon and hydraulic / oil service pipes.
+m=newMesh(0,'detail');torus(m,-2.56,1.485,.055,titanium,64,9);torus(m,-2.44,1.375,.018,shadow,64);torus(m,-1.24,1.445,.022,titanium,64);torus(m,-1.12,1.43,.034,carbon,64);torus(m,-.77,1.295,.024,titanium,60);
+for(let i=0;i<3;i++){let x=-2.20+i*.39;torus(m,x,1.497-i*.011,.006,shadow,64,5)}
+for(let j=0;j<6;j++){let x=-1.05+j*.56,r=1.40-j*.142;torus(m,x,Math.max(.59,r),.015,titanium,48,7)}
+// Pylon on the upper aft casing: tapered structural fairing.
+m=newMesh(0,'detail');let P=(x,r,a)=>[x,r*Math.cos(a),r*Math.sin(a)];
+quad(m,P(-.65,1.24,-.22),P(1.80,.70,-.18),P(2.04,1.12,-.15),P(-.36,1.72,-.19),ceramic);
+quad(m,P(-.65,1.24,.22),P(-.36,1.72,.19),P(2.04,1.12,.15),P(1.80,.70,.18),ceramic);
+quad(m,P(-.36,1.72,-.19),P(2.04,1.12,-.15),P(2.04,1.12,.15),P(-.36,1.72,.19),titanium);
+// Outlet ring and nozzle segments, exhaust mixer strakes.
+m=newMesh(5,'nozzle');torus(m,4.63,.345,.023,carbon,44);torus(m,4.73,.31,.024,ceramic,44);
+for(let i=0;i<16;i++){let a=tau*i/16;pipe(m,4.18,4.71,.37,a,.014,shadow)}
+// Fastener rows around outer nacelle; very small polygonal studs.
+m=newMesh(0,'detail');for(let x of [-2.30,-1.65,-1.18,-.71,.11,.77,1.36,2.05]){
+let r=x< -1.18?1.49:x<-.71?1.39:x<.77?1.25-(x+.71)*.20:.91-(x-.77)*.15;
+for(let i=0;i<24;i++){let a=tau*i/24;let rr=r+.008;let cx=[x,rr*Math.cos(a),rr*Math.sin(a)];let ax=[x+.018,rr*Math.cos(a+.008),rr*Math.sin(a+.008)],bx=[x-.018,rr*Math.cos(a+.008),rr*Math.sin(a+.008)],cx2=[x,rr*Math.cos(a+.022),rr*Math.sin(a+.022)];tri(m,ax,bx,cx2,shadow)}}
+// Compressor bleed air lines and segmented annular fuel manifold.
+m=newMesh(4,'detail');torus(m,1.61,.77,.025,[.54,.48,.42],44);torus(m,2.13,.71,.022,[.54,.48,.42],44);
+for(let i=0;i<12;i++)pipe(m,1.62,2.10,.77,i*tau/12,.019,copper);
+// Removed exposed aft service rods
+// Stage rings give individually identifiable turbine modules.
+m=newMesh(3,'detail');for(let j=0;j<11;j++)torus(m,-.13+j*.142,.748-j*.017,.009,shadow,34,5);
+m=newMesh(2,'detail');for(let j=0;j<3;j++)torus(m,-1.12+j*.31,.92-j*.08,.013,titanium,34,5);
+// V7: precision nacelle seams, compressor fairings, inspection bands, and nozzle details.
+m=newMesh(0,'detail');
+for(let j=0;j<10;j++){let x=-2.49+j*.13;torus(m,x,1.495-j*.001,.0035,j%2?silver:shadow,72,5)}
+for(let j=0;j<5;j++){let x=-1.03+j*.54;torus(m,x,1.35-j*.15,.019,j%2?steel:titanium,60,7)}
+for(let j=0;j<7;j++){let x=2.91+j*.25;torus(m,x,.67-j*.043,.009,steel,48,6)}
+// Spinner concentric polishing rings (rotate with the fan).
+m=newMesh(1,'spinner');for(let j=0;j<5;j++){let x=-2.83+j*.075;torus(m,x,.073+j*.034,.005,j%2?[.11,.13,.15]:[.20,.22,.24],48,6)}
+// Compressor hub machining grooves (LP and HP are physically distinct).
+m=newMesh(2,'lpc');for(let j=0;j<9;j++)torus(m,-1.13+j*.102,.245,.008,j%3?steel:blue,42,5);
+m=newMesh(3,'hpc');for(let j=0;j<22;j++)torus(m,-.16+j*.070,.218,.0045,j%4?steel:[.51,.50,.47],42,5);
+// Turbine thermal shield and combustor circumferential rings.
+m=newMesh(4,'detail');for(let j=0;j<8;j++)torus(m,1.59+j*.078,.742-j*.004,.009,j%2?[.48,.41,.36]:[.56,.52,.46],48,6);
+// Radial fan inlet fastener and metallic circumferential accents.
+m=newMesh(0,'detail');for(let i=0;i<48;i++){let a=tau*i/48;let rr=1.48;tri(m,[-2.568,rr*Math.cos(a),rr*Math.sin(a)],[-2.568,(rr+.012)*Math.cos(a+.009),(rr+.012)*Math.sin(a+.009)],[-2.568,(rr+.012)*Math.cos(a-.009),(rr+.012)*Math.sin(a-.009)],i%4?steel:silver)}
+// V8 precision detailing: inlet containment bands, metallic machining, inspection fittings.
+// Static casing features never spin with the shafts.
+let pearl=[.87,.91,.94], graphite=[.105,.13,.17], satin=[.61,.69,.75], bronze=[.65,.45,.26], nickel=[.48,.54,.59], pale=[.72,.77,.79];
+// Segmented nacelle lips, stepped metallic rims and machined circumferential grooves.
+m=newMesh(0,'detail');
+for(let j=0;j<8;j++){
+ let x=-2.585+j*.014;
+ torus(m,x,1.505-j*.004,.007,j%3===0?pearl:(j%2?satin:graphite),72,6);
+}
+for(let j=0;j<9;j++){
+ let x=-1.17+j*.13;
+ torus(m,x,1.428-j*.017,.006,j%3===0?graphite:satin,64,6);
+}
+// Finely spaced access fasteners on front and rear casings.
+m=newMesh(0,'detail');
+for(let k=0;k<4;k++){
+ let x=[-2.52,-1.18,.69,2.75][k],r=[1.51,1.43,.94,.61][k];
+ for(let j=0;j<48;j++){
+  let a=tau*j/48,da=.008,rr=r+.007;
+  let p1=[x,rr*Math.cos(a-da),rr*Math.sin(a-da)];
+  let p2=[x+.016,rr*Math.cos(a),rr*Math.sin(a)];
+  let p3=[x,rr*Math.cos(a+da),rr*Math.sin(a+da)];
+  tri(m,p1,p2,p3,j%6===0?pearl:nickel);
+ }
+}
+// Accessory gearbox housings: layered cylinders and service line couplings.
+// Removed floating accessory tubes
+// Fan blade metallic leading-edge highlights, locked to the N1 shaft.
+// Narrow swept highlights follow each fan blade's radial curve.
+m=newMesh(1,'fan');
+for(let i=0;i<16;i++){
+ let phase=tau*i/16;
+ for(let j=0;j<13;j++){
+  let f0=j/13,f1=(j+1)/13;
+  const point=(f,offset)=>{
+   let r=.26+f*1.115,a=phase+.67*f-.08*f*f-(.23+.17*Math.sin(Math.PI*Math.pow(f,.72))-.11*f)*(.75+.18*f)+.10*f*f+offset;
+   return [-2.40+.31*f*f-.04*f+.003,r*Math.cos(a),r*Math.sin(a)];
+  };
+  quad(m,point(f0,-.007),point(f1,-.007),point(f1,.007),point(f0,.007),j%3===0?FINISH.fanEdge:[.59,.64,.68]);
+ }
+}
+// Rotor hub flanges: visually distinct LP (cool titanium) and HP (warm nickel).
+m=newMesh(2,'lpc');
+for(let j=0;j<14;j++)torus(m,-1.19+j*.071,.253,.0038,j%3===0?pearl:nickel,42,5);
+m=newMesh(3,'hpc');
+for(let j=0;j<20;j++)torus(m,-.12+j*.077,.229,.004,j%4===0?bronze:pearl,42,5);
+// Combustor heat shield and perforated annular liner, fixed to the casing.
+m=newMesh(4,'detail');
+for(let j=0;j<6;j++){
+ let x=1.60+j*.11;
+ torus(m,x,.762-j*.005,.012,j%2?bronze:graphite,52,6);
+ for(let k=0;k<24;k++){
+  let a=tau*k/24,r=.766-j*.005;
+  tri(m,[x,r*Math.cos(a),r*Math.sin(a)],
+      [x+.016,(r+.008)*Math.cos(a+.012),(r+.008)*Math.sin(a+.012)],
+      [x+.016,(r+.008)*Math.cos(a-.012),(r+.008)*Math.sin(a-.012)],graphite);
+ }
+}
+// Aft turbine casing flanges and exhaust nozzle concentric polished rings.
+m=newMesh(5,'detail');
+for(let j=0;j<13;j++){
+ let x=2.35+j*.175,r=Math.max(.32,.70-j*.032);
+ torus(m,x,r,.008,j%4===0?pearl:(j%2?nickel:graphite),48,5);
+}
+for(let j=0;j<5;j++)torus(m,4.32+j*.085,.43-j*.026,.006,j%2?pearl:graphite,48,6);
+// Inspection marker studs on the turbine casing.
+m=newMesh(5,'detail');
+for(let j=0;j<28;j++){
+ let a=tau*j/28,r=.655;
+ tri(m,[3.05,r*Math.cos(a),r*Math.sin(a)],
+     [3.073,(r+.012)*Math.cos(a+.014),(r+.012)*Math.sin(a+.014)],
+     [3.073,(r+.012)*Math.cos(a-.014),(r+.012)*Math.sin(a-.014)],j%7===0?pearl:bronze);
+}
+// Global axial calibration: model ratio 7.61 / 3.02 -> 5.59 / 3.4036. Use 0.6519 to align public envelope (internal station spacing remains visual proxy).
+const AXIAL_SCALE=(5.59/3.4036)/(7.61/3.02);
+for(let mesh of meshes){for(let i=0;i<mesh.p.length;i+=3)mesh.p[i]*=AXIAL_SCALE;let count=mesh.p.length/3,arr=new Float32Array(count*9);for(let i=0;i<count;i++){arr.set(mesh.p.slice(i*3,i*3+3),i*9);arr.set(mesh.n.slice(i*3,i*3+3),i*9+3);arr.set(mesh.c.slice(i*3,i*3+3),i*9+6)}mesh.count=count;mesh.vbo=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,mesh.vbo);gl.bufferData(gl.ARRAY_BUFFER,arr,gl.STATIC_DRAW);delete mesh.p;delete mesh.n;delete mesh.c}
+}
+
+// V11.1 critical fix: v11 built nacelle meshes after build()'s buffer upload.
+// Upload them to GPU and apply the same axial calibration as the engine.
+function uploadNacelleMeshes(){
+ const AXIAL_SCALE=(5.59/3.4036)/(7.61/3.02);
+ for(const mesh of meshes){
+  if(mesh.vbo || !mesh.p || mesh.p.length===0)continue;
+  for(let i=0;i<mesh.p.length;i+=3)mesh.p[i]*=AXIAL_SCALE;
+  const count=mesh.p.length/3,arr=new Float32Array(count*9);
+  for(let i=0;i<count;i++){
+   arr.set(mesh.p.slice(i*3,i*3+3),i*9);
+   arr.set(mesh.n.slice(i*3,i*3+3),i*9+3);
+   arr.set(mesh.c.slice(i*3,i*3+3),i*9+6);
+  }
+  mesh.count=count;mesh.vbo=gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER,mesh.vbo);gl.bufferData(gl.ARRAY_BUFFER,arr,gl.STATIC_DRAW);
+  delete mesh.p;delete mesh.n;delete mesh.c;
+ }
+}
+
+function mul(a,b){let c=new Float32Array(16);for(let col=0;col<4;col++)for(let row=0;row<4;row++)for(let k=0;k<4;k++)c[col*4+row]+=a[k*4+row]*b[col*4+k];return c}
+function I(){return new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1])}
+function translate(x,y,z){let m=I();m[12]=x;m[13]=y;m[14]=z;return m}
+function rx(a){let m=I(),c=Math.cos(a),s=Math.sin(a);m[5]=c;m[6]=s;m[9]=-s;m[10]=c;return m}
+function rz(a){let m=I(),c=Math.cos(a),s=Math.sin(a);m[0]=c;m[1]=s;m[4]=-s;m[5]=c;return m}
+function ry(a){let m=I(),c=Math.cos(a),s=Math.sin(a);m[0]=c;m[2]=-s;m[8]=s;m[10]=c;return m}
+function spin(a){return rx(a)}
+function perspective(fov,aspect,near,far){let f=1/Math.tan(fov/2),m=new Float32Array(16);m[0]=f/aspect;m[5]=f;m[10]=(far+near)/(near-far);m[11]=-1;m[14]=2*far*near/(near-far);return m}
+function resize(){let rect=stage.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,1.8),w=Math.max(2,Math.round(rect.width*dpr)),h=Math.max(2,Math.round(rect.height*dpr));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h)}}
+function draw(){resize();gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);let aspect=canvas.width/canvas.height,projection=perspective(.88,aspect,.1,100);let dist=(aspect<.8?9.0:8.8)/zoom;let view=mul(translate(0,0,-dist),mul(rx(pitch),ry(yaw)));let pv=mul(projection,view);gl.useProgram(program);
+let exploded=mode==='explode',xray=mode==='xray';let opaque=[],trans=[];
+for(let m of meshes){
+ const nacellePart=m.kind.startsWith('nacelle');
+ if(nacellePart&&(nacelleMode==='hidden'||xray||exploded||focusRotor!=='all'))continue;
+ if((xray||focusRotor!=='all'||exploded||nacelleMode!=='hidden')&&m.kind==='shell')continue;
+ if((xray||exploded)&&m.kind==='detail'&&m.group===0)continue;
+ if(focusRotor==='fan'&&(LP_KINDS.has(m.kind)||HP_KINDS.has(m.kind)))continue;
+ if(focusRotor==='lp'&&(FAN_KINDS.has(m.kind)||HP_KINDS.has(m.kind)))continue;
+ if(focusRotor==='hp'&&(FAN_KINDS.has(m.kind)||LP_KINDS.has(m.kind)))continue;
+ let alpha=m.alpha;if(m.kind==='combustor'&&thermal)alpha=.78;let target=alpha<1?trans:opaque;target.push([m,alpha])}
+function drawMesh(m,alpha){let shift=exploded?({0:0,1:-.90,2:-.45,3:0,4:.48,5:1.05})[m.group]:0;let angle=(FAN_KINDS.has(m.kind)||LP_KINDS.has(m.kind))?angN1:HP_KINDS.has(m.kind)?angN2:0;let model=mul(translate(shift,0,0),spin(angle));if(m.nacelleSide){let a=m.nacelleSide*nacelleOpen*1.13;model=mul(translate(0,1.52,0),mul(rx(a),translate(0,-1.52,0)))}
+if(m.nacelleSleeve)model=mul(translate(nacelleReverse*.72,0,0),model);
+if(m.blockerTheta!==undefined){let theta=m.blockerTheta;let hinge=mul(rx(theta),mul(translate(-.45,1.185,0),mul(rz(-nacelleReverse*.88),translate(.45,-1.185,0))));model=mul(hinge,model)}gl.uniformMatrix4fv(uniform.uModel,false,model);gl.uniformMatrix4fv(uniform.uMVP,false,mul(pv,model));gl.uniform1f(uniform.uAlpha,alpha);gl.uniform1f(uniform.uGlow,thermal&&m.kind==='combustor'?.17*thermalIndex:0);let mat=MATERIAL[m.kind]||[.72,.42];gl.uniform1f(uniform.uMetal,mat[0]);gl.uniform1f(uniform.uRough,mat[1]);if(m.kind==='fan'||m.kind.startsWith('nacelle'))gl.disable(gl.CULL_FACE);else gl.enable(gl.CULL_FACE);gl.bindBuffer(gl.ARRAY_BUFFER,m.vbo);let stride=36;for(let [a,offset] of [[attrib.aPos,0],[attrib.aNormal,12],[attrib.aColor,24]]){gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,3,gl.FLOAT,false,stride,offset)}gl.drawArrays(gl.TRIANGLES,0,m.count)}
+for(let [m,a] of opaque)drawMesh(m,a);for(let [m,a] of trans)drawMesh(m,a)
+}
+function animate(now){try{let dt=last?clamp((now-last)/1000,0,.07):.016;last=now;nacelleOpen+=((nacelleMode==='open'?1:0)-nacelleOpen)*(1-Math.exp(-dt/0.40));nacelleReverse+=((nacelleMode==='reverse'?1:0)-nacelleReverse)*(1-Math.exp(-dt/0.55));if(!paused){let t1=N1_PUBLIC_REFERENCE_RPM*(.18+.82*throttle/100),t2=N2_PUBLIC_REFERENCE_RPM*(.24+.76*throttle/100);n1+=(t1-n1)*(1-Math.exp(-dt/(t1>n1?3.7:6.4)));n2+=(t2-n2)*(1-Math.exp(-dt/(t2>n2?2.15:4.2)));angN1=(angN1+DIRECTION_N1*dt*n1/60*tau*rotorVisualSpeed+tau)%tau;angN2=(angN2+DIRECTION_N2*dt*n2/60*tau*rotorVisualSpeed+tau)%tau;let tTherm=Math.pow(Math.max(0,Math.min(1,.22*(n2/N2_PUBLIC_REFERENCE_RPM)+.78*throttle/100)),1.25);thermalIndex+=(tTherm-thermalIndex)*(1-Math.exp(-dt/(tTherm>thermalIndex?3.6:8.0)))}updateAudio();draw();$('fanrpm').textContent=Math.round(n1).toLocaleString('en-US');$('n1').textContent=Math.round(n1).toLocaleString('en-US');$('n2').textContent=Math.round(n2).toLocaleString('en-US');$('egt').textContent=Math.round(thermalIndex*100)+'%';if(++frames===2){fallback.style.display='none';state.textContent='● 3D LIVE'}if(frames%45===0){$('fps').textContent='WEBGL · 16 / 3 / 11 / 2 / 6 · 2 SPOOLS'}requestAnimationFrame(animate)}catch(e){fail(e)}}
+// Web Audio synthesized engine sound. Approximate fan / core / broadband jet sound,
+// not GE9X field recording; only starts after explicit user tap (iOS policy).
+function initAudio(){
+ const C=window.AudioContext||window.webkitAudioContext;if(!C)throw Error('Web Audio unavailable');
+ audioCtx=new C();audioMaster=audioCtx.createGain();audioMaster.gain.value=0;
+ let compressor=audioCtx.createDynamicsCompressor();compressor.threshold.value=-22;compressor.knee.value=16;compressor.ratio.value=4;compressor.attack.value=.008;compressor.release.value=.20;
+ audioMaster.connect(compressor);compressor.connect(audioCtx.destination);
+ // BPF = 16 fan blades × N1 RPM / 60; pitch is physically linked to the fan.
+ audioFan=audioCtx.createOscillator();audioFan.type='sawtooth';audioFanGain=audioCtx.createGain();audioFanGain.gain.value=.065;
+ let fanBand=audioCtx.createBiquadFilter();fanBand.type='bandpass';fanBand.frequency.value=400;fanBand.Q.value=1.4;
+ audioFan.connect(fanBand);fanBand.connect(audioFanGain);audioFanGain.connect(audioMaster);audioFan.start();
+ // Higher harmonics create the characteristic rising turbofan whine.
+ audioWhine=audioCtx.createOscillator();audioWhine.type='sine';let whGain=audioCtx.createGain();whGain.gain.value=.085;audioWhine.connect(whGain);whGain.connect(audioMaster);audioWhine.start();
+ audioWhine2=audioCtx.createOscillator();audioWhine2.type='sine';let wh2Gain=audioCtx.createGain();wh2Gain.gain.value=.040;audioWhine2.connect(wh2Gain);wh2Gain.connect(audioMaster);audioWhine2.start();
+ audioCore=audioCtx.createOscillator();audioCore.type='triangle';audioCoreGain=audioCtx.createGain();audioCoreGain.gain.value=.065;audioCore.connect(audioCoreGain);audioCoreGain.connect(audioMaster);audioCore.start();
+ const len=Math.max(4096,Math.round(audioCtx.sampleRate*2));let buf=audioCtx.createBuffer(1,len,audioCtx.sampleRate),d=buf.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
+ audioNoise=audioCtx.createBufferSource();audioNoise.buffer=buf;audioNoise.loop=true;
+ audioFilter=audioCtx.createBiquadFilter();audioFilter.type='bandpass';audioFilter.Q.value=.55;audioFilter.frequency.value=1500;
+ audioHissFilter=audioCtx.createBiquadFilter();audioHissFilter.type='highpass';audioHissFilter.frequency.value=1100;
+ audioHissGain=audioCtx.createGain();audioHissGain.gain.value=.085;
+ audioNoise.connect(audioFilter);audioFilter.connect(audioHissFilter);audioHissFilter.connect(audioHissGain);audioHissGain.connect(audioMaster);audioNoise.start();
+}
+// v11.6 research-informed synthesis. GE9X reference RPM and 16-blade BPF are physical anchors;
+// all compressor blade-count-dependent tones, noise balances and directional responses are approximations.
+let ge9xReady=false,ge9xLoading=false,acoustic=null;
+const smooth=(param,val,t,tc=.14)=>param.setTargetAtTime(Math.max(.00001,val),t,tc);
+function makeNoiseBuffer(ctx,seconds=3){const b=ctx.createBuffer(1,Math.round(ctx.sampleRate*seconds),ctx.sampleRate),a=b.getChannelData(0);for(let i=0;i<a.length;i++)a[i]=(Math.random()*2-1)*.7;return b;}
+function gainNode(ctx,value=0){const g=ctx.createGain();g.gain.value=value;return g;}
+function filterNode(ctx,type,freq,q=.7){const f=ctx.createBiquadFilter();f.type=type;f.frequency.value=freq;f.Q.value=q;return f;}
+function tone(ctx,type,frequency,level,destination){const o=ctx.createOscillator(),g=gainNode(ctx,level);o.type=type;o.frequency.value=frequency;o.connect(g);g.connect(destination);o.start();return {o,g};}
+function noiseLayer(ctx,buffer,type,freq,q,level,destination){const source=ctx.createBufferSource(),filter=filterNode(ctx,type,freq,q),g=gainNode(ctx,level);source.buffer=buffer;source.loop=true;source.connect(filter);filter.connect(g);g.connect(destination);source.start();return {source,filter,g};}
+async function prepareGE9XSamples(){
+ if(ge9xReady)return;
+ if(ge9xLoading)return;
+ ge9xLoading=true;
+ try{
+  const C=window.AudioContext||window.webkitAudioContext;if(!C)throw Error('Web Audio unavailable');
+  if(!audioCtx)audioCtx=new C();await audioCtx.resume();
+  if(!audioMaster){
+   audioMaster=gainNode(audioCtx,0);
+   const limiter=audioCtx.createDynamicsCompressor();limiter.threshold.value=-17;limiter.knee.value=18;limiter.ratio.value=5;limiter.attack.value=.004;limiter.release.value=.25;
+   audioMaster.connect(limiter);limiter.connect(audioCtx.destination);
+  }
+  const c=audioCtx;
+  const inlet=gainNode(c,1),rear=gainNode(c,1),coreBus=gainNode(c,1);
+  inlet.connect(audioMaster);rear.connect(audioMaster);coreBus.connect(audioMaster);
+  // Exact fan blade passing tone = 16 * N1 / 60 Hz. Second/third harmonics are phase-coherent in frequency.
+  // Weak tonal anchors only: GE9X BPF remains physically locked to 16 blades,
+  // but the audible 'whine' comes mainly from filtered turbulent bands, not oscillators.
+  const fan=[tone(c,'sine',100,.004,inlet),tone(c,'sine',200,.002,inlet),tone(c,'sine',300,.001,inlet)];
+  const buf=makeNoiseBuffer(c);
+  const air=noiseLayer(c,buf,'bandpass',1100,.46,.10,inlet);
+  const hiss=noiseLayer(c,buf,'highpass',1600,.55,.032,inlet);
+  const roar=noiseLayer(c,buf,'lowpass',390,.65,.12,rear);
+  const jet=noiseLayer(c,buf,'bandpass',650,.48,.045,rear);
+  // N2-linked spectral cluster, intentionally NOT asserted as the GE9X HPC blade-passing frequency.
+  const compressor=[tone(c,'sine',1550,.002,coreBus),tone(c,'sine',2320,.001,coreBus),tone(c,'sine',3650,.0005,coreBus)];
+  // Each spectral band has its own independent noise carrier. Broad, moving peaks
+  // prevent the single-note / air-raid siren artifact of the previous mix.
+  const whineBands=[
+   noiseLayer(c,makeNoiseBuffer(c,3.37),'bandpass',1200,2.2,0,inlet),
+   noiseLayer(c,makeNoiseBuffer(c,3.79),'bandpass',2100,2.8,0,inlet),
+   noiseLayer(c,makeNoiseBuffer(c,4.11),'bandpass',3100,2.0,0,coreBus),
+   noiseLayer(c,makeNoiseBuffer(c,4.43),'bandpass',4200,1.7,0,coreBus)
+  ];
+  const coreNoise=noiseLayer(c,buf,'bandpass',900,.40,.03,coreBus);
+  // Wide, rough low-mid growl: two independent turbulent carriers.
+  // Avoid a pitched low oscillator; broad bands provide physical heft
+  // without reintroducing the air-raid-siren artifact.
+  const growlLow=noiseLayer(c,makeNoiseBuffer(c,4.71),'bandpass',215,.72,0,rear);
+  const growlBody=noiseLayer(c,makeNoiseBuffer(c,5.13),'bandpass',490,.83,0,coreBus);
+  const growlEdge=noiseLayer(c,makeNoiseBuffer(c,5.37),'bandpass',840,1.05,0,rear);
+  // Grand-scale roar: broad, diffuse turbulent energy rather than a pitched oscillator.
+  const grandSub=noiseLayer(c,makeNoiseBuffer(c,5.67),'lowpass',135,.65,0,rear);
+  const grandChest=noiseLayer(c,makeNoiseBuffer(c,5.91),'bandpass',330,.50,0,rear);
+  const grandWash=noiseLayer(c,makeNoiseBuffer(c,6.13),'bandpass',1250,.43,0,coreBus);
+  // Heavy, non-tonal exhaust roar: wide overlapping turbulent bands, never low oscillators.
+  const exhaustDepth=noiseLayer(c,makeNoiseBuffer(c,6.41),'bandpass',105,.38,0,rear);
+  const exhaustPressure=noiseLayer(c,makeNoiseBuffer(c,6.73),'bandpass',235,.45,0,rear);
+  const exhaustThunder=noiseLayer(c,makeNoiseBuffer(c,7.07),'lowpass',540,.55,0,rear);
+  const exhaustAirMass=noiseLayer(c,makeNoiseBuffer(c,7.31),'bandpass',660,.36,0,rear);
+  // Independent intake-side pressure field: heavy broadband fan ingestion, not mechanical tones.
+  const intakePressure=noiseLayer(c,makeNoiseBuffer(c,7.63),'bandpass',125,.38,0,inlet);
+  const intakeChest=noiseLayer(c,makeNoiseBuffer(c,7.87),'bandpass',285,.52,0,inlet);
+  const intakeSurge=noiseLayer(c,makeNoiseBuffer(c,8.11),'lowpass',680,.64,0,inlet);
+  const intakeWash=noiseLayer(c,makeNoiseBuffer(c,8.39),'bandpass',920,.44,0,inlet);
+  // Slow, irregular broadband rumble at BOTH ends. No periodic low-frequency motor oscillator.
+  const rumbleInLow=noiseLayer(c,makeNoiseBuffer(c,8.67),'lowpass',115,.62,0,inlet);
+  const rumbleInBody=noiseLayer(c,makeNoiseBuffer(c,8.91),'bandpass',205,.43,0,inlet);
+  const rumbleOutLow=noiseLayer(c,makeNoiseBuffer(c,9.19),'lowpass',125,.61,0,rear);
+  const rumbleOutBody=noiseLayer(c,makeNoiseBuffer(c,9.43),'bandpass',240,.45,0,rear);
+  acoustic={fan,air,hiss,roar,jet,compressor,coreNoise,growlLow,growlBody,growlEdge,grandSub,grandChest,grandWash,exhaustDepth,exhaustPressure,exhaustThunder,exhaustAirMass,intakePressure,intakeChest,intakeSurge,intakeWash,rumbleInLow,rumbleInBody,rumbleOutLow,rumbleOutBody,whineBands,inlet,rear,coreBus};
+  ge9xReady=true;
+ }finally{ge9xLoading=false;}
+}
+async function toggleSound(){try{
+ const enable=!soundOn;
+ if(enable){
+  $('soundState').textContent='INITIALIZING WEB AUDIO…';
+  if(sampleAudio){await sampleAudio.play();}
+  else await prepareGE9XSamples();
+ }
+ soundOn=enable;
+ $('sound').textContent=soundOn?'◉ SOUND ON':'◌ SOUND OFF';$('sound').classList.toggle('on',soundOn);
+ if(!soundOn&&sampleAudio)sampleAudio.pause();
+ if(audioCtx&&audioMaster)smooth(audioMaster.gain,soundOn&&!sampleAudio?.55:0,audioCtx.currentTime,.16);
+ $('soundState').textContent=sampleAudio?'CUSTOM AUDIO · ORIGINAL SPEED':soundOn?'NATURAL WHINE · ROLLING THUNDER RUMBLE · N1/N2 MODEL':'4Us · BLACK FAN · DEEP ROLLING THUNDER · TAP TO ENABLE';
+ }catch(e){soundOn=false;$('sound').textContent='◌ SOUND OFF';$('soundState').textContent='AUDIO ERROR · '+String(e.message||e);console.warn(e)}
+}
+function updateAudio(){
+ if(sampleAudio){sampleAudio.playbackRate=1;sampleAudio.volume=soundOn?.35+throttle/100*.5:0;return;}
+ if(!audioCtx||!ge9xReady||!acoustic)return;
+ const a=acoustic,t=audioCtx.currentTime;
+ const u=Math.max(0,Math.min(1,(n1/N1_PUBLIC_REFERENCE_RPM-.18)/.82));
+ const v=Math.max(0,Math.min(1,(n2/N2_PUBLIC_REFERENCE_RPM-.24)/.76));
+ const bpf=16*n1/60;
+ a.fan.forEach((x,i)=>{smooth(x.o.frequency,Math.max(30,bpf*(i+1)),t,.09);smooth(x.g.gain,[.013,.006,.003][i]*(.13+.87*Math.pow(u,.75)),t,.15)});
+ smooth(a.air.filter.frequency,650+2100*u,t,.20);smooth(a.air.g.gain,.014+.065*Math.pow(u,1.2),t,.20);
+ smooth(a.hiss.filter.frequency,1100+2100*u,t,.20);smooth(a.hiss.g.gain,.004+.022*u,t,.20);
+ smooth(a.roar.filter.frequency,250+520*u,t,.23);smooth(a.roar.g.gain,.012+.115*Math.pow(u,1.8),t,.23);
+ smooth(a.jet.filter.frequency,320+1050*u,t,.23);smooth(a.jet.g.gain,.005+.040*Math.pow(u,1.7),t,.23);
+ a.compressor.forEach((x,i)=>{smooth(x.o.frequency,[850,1280,2100][i]+[1850,2500,3350][i]*v,t,.14);smooth(x.g.gain,[.003,.002,.0008][i]*(.18+.82*v),t,.18)});
+ // GE9X recording-inspired harmonic spectral *regions*, with deliberately low Q.
+ // BPF-derived center frequency is not a pure sine wave: turbulent components
+ // and microphone coloration produce a wider, less alarm-like sound.
+ const bandFreq=[bpf*2,bpf*3.15,1850+1600*v,2700+1700*v];
+ const bandGain=[.105,.074,.082,.043];
+ a.whineBands.forEach((x,i)=>{
+  smooth(x.filter.frequency,Math.max(220,bandFreq[i]),t,.24);
+  smooth(x.g.gain,bandGain[i]*(.10+.90*Math.pow(i<2?u:v,.85)),t,.23);
+ });
+ smooth(a.coreNoise.filter.frequency,750+1850*v,t,.23);smooth(a.coreNoise.g.gain,.009+.032*v,t,.23);
+ // Large-engine body builds strongly after mid-spool; broad spectra, no siren pitch.
+ const thrust=Math.pow(Math.max(0,u),1.65),coreThrust=Math.pow(Math.max(0,v),1.35);
+ smooth(a.growlLow.filter.frequency,170+200*u,t,.28);
+ smooth(a.growlLow.g.gain,.008+.095*thrust,t,.30);
+ smooth(a.growlBody.filter.frequency,370+380*v,t,.28);
+ smooth(a.growlBody.g.gain,.008+.105*coreThrust,t,.30);
+ smooth(a.growlEdge.filter.frequency,650+550*u,t,.28);
+ smooth(a.growlEdge.g.gain,.004+.055*thrust,t,.30);
+ smooth(a.grandSub.filter.frequency,105+115*u,t,.33);
+ smooth(a.grandSub.g.gain,.006+.110*Math.pow(thrust,.82),t,.35);
+ smooth(a.grandChest.filter.frequency,255+245*u,t,.30);
+ smooth(a.grandChest.g.gain,.006+.150*Math.pow(thrust,.85),t,.33);
+ smooth(a.grandWash.filter.frequency,900+950*u,t,.32);
+ smooth(a.grandWash.g.gain,.004+.082*Math.pow(thrust,.9),t,.35);
+ // Broad low-frequency pressure wall: deep jet turbulence, not mechanical rattling.
+ // Slow acceleration follows the N1 spool; at idle it stays subdued.
+ const mass=Math.pow(Math.max(0,u),1.45);
+ smooth(a.exhaustDepth.filter.frequency,75+85*u,t,.36);
+ smooth(a.exhaustDepth.g.gain,.002+.23*mass,t,.40);
+ smooth(a.exhaustPressure.filter.frequency,170+185*u,t,.33);
+ smooth(a.exhaustPressure.g.gain,.003+.26*mass,t,.38);
+ smooth(a.exhaustThunder.filter.frequency,330+390*u,t,.34);
+ smooth(a.exhaustThunder.g.gain,.004+.19*mass,t,.38);
+ smooth(a.exhaustAirMass.filter.frequency,460+480*u,t,.30);
+ smooth(a.exhaustAirMass.g.gain,.003+.14*mass,t,.35);
+ // Deep broadband rumble at the INLET as well as the exhaust.
+ // Maintain energy in both views; camera changes tonal balance rather than removing the roar.
+ smooth(a.intakePressure.filter.frequency,95+115*u,t,.32);
+ smooth(a.intakePressure.g.gain,.012+.31*Math.pow(u,1.15),t,.40);
+ smooth(a.intakeChest.filter.frequency,205+215*u,t,.32);
+ smooth(a.intakeChest.g.gain,.012+.34*Math.pow(u,1.22),t,.40);
+ smooth(a.intakeSurge.filter.frequency,420+460*u,t,.34);
+ smooth(a.intakeSurge.g.gain,.016+.26*Math.pow(u,1.18),t,.40);
+ smooth(a.intakeWash.filter.frequency,650+530*u,t,.34);
+ smooth(a.intakeWash.g.gain,.006+.11*Math.pow(u,1.3),t,.38);
+ // Irregular slow swell (0.7–4 Hz), not blade chatter, helicopter beats or mechanical rattle.
+ // Independent modulation at front and back avoids a single repeating 'machine' pulse.
+ const waveIn=.76+.15*Math.sin(t*2*Math.PI*.83)+.07*Math.sin(t*2*Math.PI*2.27+.9)+.025*Math.sin(t*2*Math.PI*3.71+1.3);
+ const waveOut=.77+.14*Math.sin(t*2*Math.PI*.69+1.8)+.07*Math.sin(t*2*Math.PI*1.91+.2)+.025*Math.sin(t*2*Math.PI*3.43+2.4);
+ const pressure=Math.pow(Math.max(0,u),1.12);
+ smooth(a.rumbleInLow.filter.frequency,82+92*u,t,.25);
+ smooth(a.rumbleInBody.filter.frequency,155+135*u,t,.25);
+ smooth(a.rumbleOutLow.filter.frequency,85+105*u,t,.25);
+ smooth(a.rumbleOutBody.filter.frequency,165+145*u,t,.25);
+ smooth(a.rumbleInLow.g.gain,(.023+.58*pressure)*waveIn,t,.095);
+ smooth(a.rumbleInBody.g.gain,(.016+.47*pressure)*(.88+.12*waveIn),t,.11);
+ smooth(a.rumbleOutLow.g.gain,(.019+.56*pressure)*waveOut,t,.095);
+ smooth(a.rumbleOutBody.g.gain,(.016+.44*pressure)*(.86+.14*waveOut),t,.11);
+ // Inlet vs aft directivity approximated from current orbit view; visual yaw is not a calibrated microphone position.
+ const frontal=.5+.5*Math.sin(yaw);
+ smooth(a.inlet.gain,1.05+.34*frontal,t,.35);
+ smooth(a.rear.gain,1.10-.22*frontal,t,.35);
+ smooth(a.coreBus.gain,.70+.13*v,t,.35);
+}
+const PART_DETAILS={
+ fan:['FAN','16 片碳纖維複合材料葉片、134 in（3.4036 m）直徑。葉型與前緣為示意近似；與 LPC/LPT 同屬 N1。'],
+ lpc:['BOOSTER / LPC','3 級低壓壓縮機；與 FAN / LPT 同軸 N1。每列葉片數為視覺近似。'],
+ hpc:['HPC','11 級高壓壓縮機，約 27:1 壓比；與 HPT 同軸 N2。逐級葉片數不代表原廠數據。'],
+ combustor:['TAPS III','環形燃燒室示意，包含內外襯套與燃油分配環；CMC 熱端材料屬公開資訊，精確孔位未知。'],
+ hpt:['HPT','2 級高壓渦輪，由燃氣驅動 N2；與 11 級 HPC 同軸。'],
+ lpt:['LPT','6 級低壓渦輪，驅動風扇與 3 級 LPC；與 N1 同速。']
+};
+function showPart(p){viewPart=p;let d=PART_DETAILS[p];$('techDetail').innerHTML='<strong>'+d[0]+'</strong> · '+d[1];document.querySelectorAll('[data-part]').forEach(b=>b.classList.toggle('active',b.dataset.part===p))}
+function events(){$('soundFile').addEventListener('change',e=>{let f=e.target.files&&e.target.files[0];if(!f)return;if(sampleAudio){sampleAudio.pause();sampleAudio.src='';}if(sampleUrl)URL.revokeObjectURL(sampleUrl);sampleUrl=URL.createObjectURL(f);sampleAudio=new Audio(sampleUrl);sampleAudio.loop=true;sampleAudio.preload='auto';$('soundState').textContent='CUSTOM AUDIO READY · '+f.name;if(audioCtx&&audioMaster)audioMaster.gain.setTargetAtTime(0,audioCtx.currentTime,.15);if(soundOn)sampleAudio.play().catch(console.warn);});document.querySelectorAll('[data-nacelle]').forEach(b=>b.addEventListener('click',()=>{nacelleMode=b.dataset.nacelle;document.querySelectorAll('[data-nacelle]').forEach(x=>x.classList.toggle('active',x===b));$('nacelleState').textContent=({closed:'CLOSED · COMPLETE SHELL',open:'OPEN · FAN COWL',reverse:'REVERSE · CASCADES',hidden:'HIDDEN · CORE INSPECTION'})[nacelleMode];}));document.querySelectorAll('[data-part]').forEach(b=>b.addEventListener('click',()=>{showPart(b.dataset.part);if(b.dataset.part==='combustor'){mode='xray';document.querySelector('[data-mode="xray"]').click()}else{focusRotor=({fan:'fan',lpc:'lp',hpc:'hp',hpt:'hp',lpt:'lp'})[b.dataset.part];document.querySelectorAll('.rotorbtn').forEach(x=>x.classList.toggle('selected',x.dataset.rotor===focusRotor));}}));$('sourceLink').addEventListener('click',()=>window.open('https://www.geaerospace.com/propulsion/commercial/ge9x','_blank','noopener,noreferrer'));$('visSpeed').addEventListener('change',e=>{rotorVisualSpeed=+e.target.value});document.querySelectorAll('.rotorbtn').forEach(b=>b.addEventListener('click',()=>{focusRotor=b.dataset.rotor;document.querySelectorAll('.rotorbtn').forEach(x=>x.classList.toggle('selected',x===b));$('rotorHint').textContent=focusRotor==='lp'?'N1 低壓軸：FAN + LPC + LPT · 同向同速':focusRotor==='hp'?'N2 高壓軸：HPC + HPT · 同向同速':'FAN = LPC = LPT (N1) · HPC = HPT (N2)';}));document.querySelectorAll('.mode').forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.mode;document.querySelectorAll('.mode').forEach(x=>x.classList.toggle('active',x===b));$('modeLabel').textContent=({exterior:'01 / EXTERIOR',xray:'02 / X-RAY',explode:'03 / EXPLODED'})[mode];$('hintTitle').textContent=({exterior:'GE9X · BOEING 777X · STUDY MODEL',xray:'TWO INDEPENDENT SHAFTS',explode:'FIVE ENGINE MODULES / 2 SPOOLS'})[mode];$('hintText').innerHTML=({exterior:'拖曳旋轉視角 · 雙指縮放<br>16 片 CFRP 風扇 · 3 / 11 / 2 / 6 級 · 雙轉子',xray:'N1：風扇／LPC／LPT<br>N2：HPC／HPT · 定子固定',explode:'風扇、低壓壓縮機、高壓壓縮機<br>燃燒室與渦輪分解展示'})[mode]}));$('throttle').addEventListener('input',e=>{throttle=+e.target.value;$('throttleValue').textContent=throttle+'%'});$('pause').addEventListener('click',()=>{paused=!paused;$('pause').textContent=paused?'▶ RESUME':'Ⅱ PAUSE';state.textContent=paused?'● PAUSED':'● 3D LIVE'});$('thermal').addEventListener('click',()=>{thermal=!thermal;$('thermal').textContent=thermal?'THERMAL ON':'THERMAL OFF';$('thermal').classList.toggle('on',thermal)});$('sound').addEventListener('click',toggleSound);$('front').addEventListener('click',()=>{yaw=Math.PI/2;pitch=0;zoom=1.25});$('side').addEventListener('click',()=>{yaw=0;pitch=.05;zoom=1.06});$('iso').addEventListener('click',()=>{yaw=1.00;pitch=.16;zoom=1.13});$('reset').addEventListener('click',()=>{yaw=1.00;pitch=.16;zoom=1.13});let pointers=new Map(),oldDist=0,lastTap=0;stage.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'&&Date.now()-lastTap<280&&pointers.size===0){yaw=1.00;pitch=.16;zoom=1.13;}lastTap=Date.now();stage.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});oldDist=0});stage.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;let old=pointers.get(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size===1){yaw+=((e.clientX-old.x)*.009);pitch=clamp(pitch-(e.clientY-old.y)*.008,-1.3,1.3);$('angleText').textContent='VIEW '+Math.round(yaw*180/pi)+'°'}else{let pts=[...pointers.values()],d=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);if(oldDist)zoom=clamp(zoom*d/oldDist,.55,2.4);oldDist=d}});function end(e){pointers.delete(e.pointerId);oldDist=0}stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',end);stage.addEventListener('lostpointercapture',end);stage.addEventListener('wheel',e=>{e.preventDefault();zoom=clamp(zoom*(e.deltaY>0?.92:1.08),.55,2.4)},{passive:false});}
+canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();paused=true;fail('WebGL context lost · 重新載入頁面即可復原')});try{init();build();buildNacelle();uploadNacelleMeshes();events();requestAnimationFrame(animate)}catch(e){fail(e)}
+})();
+</script></body></html>
